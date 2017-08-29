@@ -32,7 +32,7 @@ map_lims <- c(min(perf$LON), min(perf$LAT), max(perf$LON), max(perf$LAT))
 map <- get_map(location = map_lims, zoom=12, color="bw")
 
 #time labels
-time_labs <- seq(round(head(perf$TIME.5S, 1), units="mins"), round(tail(perf$TIME.5S, 1), units="hour"), by="10 mins")
+time_labs <- seq(round(head(perf$TIME.5S, 1), units="mins"), round(tail(perf$TIME.5S, 1), units="hour"), by="30 mins")
 
 
 time_labs <- perf[perf$TIME.5S %in% time_labs, ]
@@ -41,7 +41,7 @@ time_labs <- perf[perf$TIME.5S %in% time_labs, ]
 ggmap(map) + 
   geom_path(data=perf, aes(x=LON, y=LAT), color="red", linetype=1, size=0.5) +
   #scale_color_gradientn(colors=rainbow(5), limits=c(0,10), breaks=seq(0,10, 2))+
-  geom_label_repel(data=time_labs, aes(x=LON, y=LAT, label=format(TIME.5S, "%a %H:%M")), point.padding = unit(.8, "lines"))+
+  geom_text_repel(data=time_labs, aes(x=LON, y=LAT, label=format(TIME.5S, "%H:%M")), point.padding = unit(.8, "lines"))+
   scale_x_continuous(limits=c(min(perf$LON), max(perf$LON)))+
   scale_y_continuous(limits=c(min(perf$LAT), max(perf$LAT)))
 
@@ -156,7 +156,7 @@ ggmap(map) +
 
 ```{r performance_over_time}
 
-ggplot(perf)+geom_point(aes(x=TIME.5S, y=SOG, color=pol.perc))+
+ggplot(perf)+geom_path(aes(x=TIME.5S, y=SOG, color=pol.perc))+
   scale_color_gradientn(colors=rainbow(4), name="% of Polar")+
   scale_x_datetime(name="Time")+
   ggtitle("Performance vs. Polar over Time")

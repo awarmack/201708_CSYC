@@ -106,13 +106,17 @@ perf <- perf[perf$AWA < 360, ]
 
 source("../polar_data/loadPolars.R")
 
-perf$target.SOG <- bilinear(x= trueangle, y= c(0, truewind), z=zv, x0=perf$TWA.mir, y0=perf$TWS)$z
+perf$target.SOG <- bilinear(x= trueangle, 
+                            y= c(0, truewind), 
+                            z=zv, 
+                            x0=perf$TWA.mir, 
+                            y0=perf$TWS)$z
 perf$diff.SOG <- perf$SOG - perf$target.SOG
 perf$pol.perc <- (perf$SOG / perf$target.SOG) * 100
 
-perf$target.SOG[perf$AWA < 36] <- NA
-perf$diff.SOG[perf$AWA < 36] <- NA
-perf$pol.perc[perf$AWA < 36] <- NA
+#perf$target.SOG[perf$AWA < 36] <- NA
+#perf$diff.SOG[perf$AWA < 36] <- NA
+#perf$pol.perc[perf$AWA < 36] <- NA
 
 
 #anything over 120% is an apparition...set to NA
