@@ -4,7 +4,7 @@
 # 3. Calculate TWA, TWS, and TWD
 # 4. Apply Wind & Speed Brackets
 # 5. Calculate Performance Vs. POlar
-
+print("Blah")
 
 #### Library & Source ####
 rm(list=ls())
@@ -129,5 +129,12 @@ COGclust <- hclust(COGdis, method="ward.D")
 legs <- cutree(COGclust, h=10000)
 
 perf$legs <- legs
+
+
+# 6. Get Marks Data ===============================================================
+
+marks <- read.csv("./data/marks.csv", stringsAsFactors = FALSE)
+
+
 
 

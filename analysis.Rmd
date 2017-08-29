@@ -39,11 +39,14 @@ time_labs <- perf[perf$TIME.5S %in% time_labs, ]
 
 
 ggmap(map) + 
-  geom_path(data=perf, aes(x=LON, y=LAT), color="red", linetype=1, size=0.5) +
-  #scale_color_gradientn(colors=rainbow(5), limits=c(0,10), breaks=seq(0,10, 2))+
-  geom_text_repel(data=time_labs, aes(x=LON, y=LAT, label=format(TIME.5S, "%H:%M")), point.padding = unit(.8, "lines"))+
-  scale_x_continuous(limits=c(min(perf$LON), max(perf$LON)))+
-  scale_y_continuous(limits=c(min(perf$LAT), max(perf$LAT)))
+  geom_path(data=perf, aes(x=LON, y=LAT), color="red", linetype=1, size=1) +
+  scale_color_gradientn(colors=rainbow(5), limits=c(0,10), breaks=seq(0,10, 2))+
+  #geom_text_repel(data=time_labs, 
+  #                aes(x=LON, y=LAT, label=format(TIME.5S, "%H:%M")), 
+  #                point.padding = unit(.8, "lines"))+
+  geom_path(data=marks, aes(x=lon, y=lat), color="black", linetype=2)+
+  scale_x_continuous(limits=c(min(perf$LON)-.01, max(perf$LON)+.01))+
+  scale_y_continuous(limits=c(min(perf$LAT)-.01, max(perf$LAT)+.01))
 
 ```
 
@@ -167,6 +170,16 @@ Grey dots are areas where the target speed could not be calculated from the pola
 
 #By Leg of the race
 ```{r}
+
+getdist <- function(x1,y1, x2, y2){
+  
+  dist <- sqrt((x2-x1)^2 + (y1-y2)^2)
+  return(dist)
+}
+
+dist.mark.A <- getdist(perf$LON, perf$LAT, rep(marks$lon[2],nrow(perf)), rep(marks$lat[2],nrow(perf)))
+
+
 
 ggmap(map)+geom_point(data=perf, aes(x=LON, y=LAT, color=as.factor(legs)))
 
